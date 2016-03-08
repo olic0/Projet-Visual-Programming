@@ -1,15 +1,20 @@
 void settings() {
-size(300,300,P2D);
+size(700,700,P2D);
 }
 void setup () {
 }
+
+int value = 2;
+float angleX = 0;
+float angleY = 0;
+
 void draw() {
-background(0, 150, 200);
+background(255, 255, 255);
 My3DPoint eye = new My3DPoint(0, 0, -5000);
-My3DPoint origin = new My3DPoint(0, 0, 0);
+My3DPoint origin = new My3DPoint(200, 200, 200);
 My3DBox input3DBox = new My3DBox(origin, 100, 150, 300);
 //rotated around x
-float[][] transform1 = rotateXMatrix(PI/8);
+float[][] transform1 = multiplyMatrix(rotateXMatrix(angleX), rotateYMatrix(angleY));
 input3DBox = transformBox(input3DBox, transform1);
 projectBox(eye, input3DBox).render();
 //rotated and translated
@@ -17,9 +22,35 @@ float[][] transform2 = translationMatrix(200, 200, 0);
 input3DBox = transformBox(input3DBox, transform2);
 projectBox(eye, input3DBox).render();
 //rotated, translated, and scaled
-float[][] transform3 = scaleMatrix(2, 2, 2);
+float[][] transform3 = scaleMatrix(value, value, value);
 input3DBox = transformBox(input3DBox, transform3);
 projectBox(eye, input3DBox).render();
+}
+
+void mouseDragged() {
+  if(mouseY > pmouseY){
+    value += 1;
+  } else if(mouseY < pmouseY){
+    if(value - 1 < 0){
+     value = 0; 
+    } else {
+     value -= 1; 
+    }
+}
+}
+
+void keyPressed() {
+  if (key == CODED) {
+    if (keyCode == UP) {
+      angleX -= PI/8;
+    } else if (keyCode == DOWN) {
+      angleX += PI/8;
+    } else if (keyCode == LEFT) {
+      angleY -= PI/8;
+    }else if (keyCode == RIGHT) {
+      angleY += PI/8;
+}
+}
 }
 
 class My2DPoint {
@@ -60,8 +91,6 @@ class My2DBox{
     line(s[4].x, s[4].y, s[7].x, s[7].y);
     line(s[5].x, s[5].y, s[6].x, s[6].y);
     line(s[6].x, s[6].y, s[7].x, s[7].y);
-    line(s[0].x, s[0].y, s[2].x, s[2].y);
-    line(s[1].x, s[1].y, s[3].x, s[3].y);
     
   }
 }
