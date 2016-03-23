@@ -1,13 +1,21 @@
-float depth = 100;
-void settings() {
-size(700,700,P3D);
-}
 
+void settings() {
+size(500, 500,P3D);
+}
+float boxX = 100;
+float boxY = 100;
+float boxZ = 10;
 float mx;
 float mz;
+float angleX;
+float angleZ;
+Mover ball;
+boolean shifted = false;
+ArrayList<PVector> cylinders = new ArrayList<PVector>();
 
 void setup () {
   noStroke();
+  ball = new Mover();
   pushMatrix();
   translate(width/2, height/2, 0);
   mx = width/2.0;
@@ -23,36 +31,26 @@ void draw() {
   translate(width/2, height/2, 0);
   fill(100);
   
-  if(mx > width){
-   mx = width; 
-  } else if(mx < 0){
-   mx = 0; 
-  }
-  if(mz < 0){
-    mz = 0;
-  } else if(mz > height){
-   mz = height; 
-  }
-  float angleX = map(mz, 0, width, PI/6, -PI/6);
-  float angleZ = map(mx, 0, height, -PI/6, PI/6);
+  if(shifted == false){
+  pushMatrix();
   rotateX(PI/2);
   rotateX(angleX); //The plates move in the right direction when I invert the angles with rotate()
   rotateY(angleZ);
-  box(100, 100, 10);
-}
-
-
-void mouseDragged(){
- mx += (mouseX - pmouseX)*change;
- mz += (mouseY - pmouseY)*change;
-}
-
-void mouseWheel(MouseEvent event){
-  change += event.getCount();
-  if(change < 0.2){
-   change = 0.2; 
-  } else if(change > 1.5){
-   change = 1.5; 
+  box(boxX, boxY, boxZ);
+  
+  for(int i = 0; i < cylinders.size(); i++){
+   Cylinder newCylinder = new Cylinder();
+   newCylinder.display(cylinders.get(i).x, cylinders.get(i).y, boxZ/2);
+   println("x : " + cylinders.get(i).x + " y : "+  cylinders.get(i).y);
   }
-  println(change);
+  
+  pushMatrix();
+  ball.update(angleZ, angleX);
+  ball.checkEdges();
+  ball.display();
+  popMatrix();
+  popMatrix();
+  } else {
+    box(boxX, boxY, boxZ);
+  }
 }
