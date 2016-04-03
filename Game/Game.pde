@@ -2,13 +2,14 @@
 void settings() {
 size(500, 500,P3D);
 }
-float boxX = 100;
-float boxY = 100;
-float boxZ = 10;
+float boxX = 200;
+float boxY = 10;
+float boxZ = 200;
 float mx;
 float mz;
-float angleX;
-float angleZ;
+float angleX = 0;
+float angleZ = 0;
+float change = 1;
 Mover ball;
 boolean shifted = false;
 ArrayList<PVector> cylinders = new ArrayList<PVector>();
@@ -23,34 +24,37 @@ void setup () {
   popMatrix();
 }
 
-float change = 1;
-
 void draw() {
   background(100, 100, 200);
   lights();
   translate(width/2, height/2, 0);
   fill(100);
   
-  if(shifted == false){
+  if(!shifted){
   pushMatrix();
-  rotateX(PI/2);
-  rotateX(angleX); //The plates move in the right direction when I invert the angles with rotate()
-  rotateY(angleZ);
+  rotateX(angleX);
+  rotateZ(angleZ);
   box(boxX, boxY, boxZ);
   
   for(int i = 0; i < cylinders.size(); i++){
-   Cylinder newCylinder = new Cylinder();
-   newCylinder.display(cylinders.get(i).x, cylinders.get(i).y, boxZ/2);
-   println("x : " + cylinders.get(i).x + " y : "+  cylinders.get(i).y);
+       fill(250, 160, 25);
+       Cylinder newCylinder = new Cylinder();
+       newCylinder.display(cylinders.get(i).x - width/2, -boxY/2- Cylinder.cylinderHeight, cylinders.get(i).y - height/2);
   }
   
   pushMatrix();
   ball.update(angleZ, angleX);
   ball.checkEdges();
+  ball.checkCylinderCollision();
   ball.display();
   popMatrix();
   popMatrix();
   } else {
-    box(boxX, boxY, boxZ);
+    box(boxX, boxZ, boxY);
+    for(int i = 0; i < cylinders.size(); i++){
+      fill(250, 160,25);
+      Cylinder newCylinder = new Cylinder();
+      newCylinder.display(cylinders.get(i).x -width/2, cylinders.get(i).y - height/2, boxY/2);
+    }
   }
 }

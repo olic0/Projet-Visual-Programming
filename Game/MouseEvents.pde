@@ -29,8 +29,8 @@ void mouseWheel(MouseEvent event){
 void mouseClicked(){
  if(shifted){
    PVector position = new PVector(mouseX, mouseY);
-   PVector upLeft = new PVector(width/2f - boxX/2f, height/2f - boxY/2f);
-   PVector bottomRight = new PVector(width/2f + boxX/2f, height/2f + boxY/2f);
+   PVector upLeft = new PVector(width/2f - boxX/2f, height/2f - boxZ/2f);
+   PVector bottomRight = new PVector(width/2f + boxX/2f, height/2f + boxZ/2f);
    
    if( position.x >= upLeft.x + Cylinder.cylinderBaseSize
      && position.x <= bottomRight.x - Cylinder.cylinderBaseSize
