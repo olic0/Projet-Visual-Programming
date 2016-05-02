@@ -23,31 +23,37 @@ friction.normalize();
 friction.mult(frictionMagnitude);
 location.add(velocity.add(friction.add(gravity)));
 }
+
 void display() {
 noStroke();
 fill(200,0, 0);
-r = 20;
+r = 5;
 pushMatrix();
 translate(location.x, -boxY/2-r, location.y);
 sphere(r);
 popMatrix();
 }
+
 void checkEdges() {
 if (location.x > boxX/2f - r/2f) {
 location.x = boxX/2f - r/2f;
 velocity.x = velocity.x * -1;
+score -= ball.velocity.mag();
 }
 else if (location.x < r/2f - boxX/2f) {
 location.x = r/2f - boxX/2f;
 velocity.x = velocity.x * -1;
+score -= ball.velocity.mag();
 }
 if (location.y > boxZ/2f - r/2f) {
 location.y = boxZ/2 - r/2;
 velocity.y = velocity.y * -1;
+score -= ball.velocity.mag();
 }
 else if (location.y < r/2f - boxZ/2f) {
 location.y = r/2 - boxZ/2f;
 velocity.y = velocity.y * -1;
+score -= ball.velocity.mag();
 }
 }
 
@@ -61,6 +67,7 @@ void checkCylinderCollision(){
         n = n.mult(2*tmpV.dot(n));
         velocity = tmpV.sub(n);
         location = tmpL.add(velocity);
+        score += ball.velocity.mag();
       }
     }
     
