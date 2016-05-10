@@ -1,4 +1,4 @@
-PImage binary(PImage image, float threshold){
+PImage binar(PImage image, float threshold){
   
   PImage result = createImage(image.width, image.height, RGB);
   
@@ -26,14 +26,40 @@ PImage invertedBinary(PImage image, float threshold){
   return result;
 }
 
-PImage hueImage(PImage image, float scroll1, float scroll2){
+PImage hueImage(PImage image, float min, float max){
   PImage result = createImage(width, height, RGB);
   
   for(int i = 0; i < image.width * image.height; i++) {
-    if(hue(img.pixels[i]) < 255*scroll1 || hue(img.pixels[i]) > 255*scroll2){
+    if(hue(img.pixels[i]) < 255*min || hue(img.pixels[i]) > 255*max){
       result.pixels[i] = color(0);
     } else {
-      result.pixels[i] = color(hue(image.pixels[i]));
+      result.pixels[i] = color(image.pixels[i]);
+    }
+  }
+  return result;
+}
+
+PImage brightnessMap(PImage image, float min, float max){
+  PImage result = createImage(width, height, RGB);
+  
+  for(int i = 0; i < image.width * image.height; i++) {
+    if(brightness(img.pixels[i]) < 255*min || brightness(img.pixels[i]) > 255*max){
+      result.pixels[i] = color(0);
+    } else {
+      result.pixels[i] = color(image.pixels[i]);
+    }
+  }
+  return result;
+}
+
+PImage saturationMap(PImage image, float min, float max){
+  PImage result = createImage(width, height, RGB);
+  
+  for(int i = 0; i < image.width * image.height; i++) {
+    if(saturation(img.pixels[i]) < 255*min || saturation(img.pixels[i]) > 255*max){
+      result.pixels[i] = color(0);
+    } else {
+      result.pixels[i] = color(image.pixels[i]);
     }
   }
   return result;
