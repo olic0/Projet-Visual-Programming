@@ -31,7 +31,7 @@ PImage gaussian(PImage img) {
                        
                       
   PImage result = createImage(img.width, img.height, ALPHA);
-  float weight = 150.f;
+  float weight = 50.f;
   int n = 3;
   for(int i = n/2; i < img.height - n/2; i++){
       for(int j = n/2; j< img.width - n/2; j++){

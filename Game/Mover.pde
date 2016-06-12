@@ -4,7 +4,7 @@ PVector velocity;
 PVector gravity;
 PVector friction;
 
-float gravityConstant = 0.9;
+float gravityConstant = 3;
 float normalForce = 1;
 float mu = 0.1;
 float frictionMagnitude = normalForce * mu;
@@ -27,7 +27,7 @@ location.add(velocity.add(friction.add(gravity)));
 void display() {
 noStroke();
 fill(200,0, 0);
-r = 5;
+r = 6;
 pushMatrix();
 translate(location.x, -boxY/2-r, location.y);
 sphere(r);
@@ -68,6 +68,7 @@ void checkCylinderCollision(){
         velocity = tmpV.sub(n);
         location = tmpL.add(velocity);
         score += ball.velocity.mag();
+        cylinders.remove(i);
       }
     }
     

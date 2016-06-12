@@ -2,9 +2,9 @@
 void settings() {
 size(500, 500, P3D);
 }
-float boxX = 200;
+float boxX = 100;
 float boxY = 10;
-float boxZ = 200;
+float boxZ = 100;
 float mx;
 float mz;
 float angleX = 0;
@@ -26,9 +26,10 @@ int score = 0;
 int scoreBoardSize = topViewSize;
 
 PGraphics barChart;
-int barChartHeight = topViewSize - 5*border;
-int barChartWidth = width - (topViewSize + scoreBoardSize + 4*border);
+int barChartHeight = bottomSquareHeight - 3*border;
+int barChartWidth;
 
+HScrollbar scrollBar;
 
 void setup () {
   noStroke();
@@ -36,7 +37,9 @@ void setup () {
   bottomRect = createGraphics(width, bottomSquareHeight, P2D);
   topView = createGraphics(topViewSize, topViewSize, P2D);
   scoreBoard = createGraphics(scoreBoardSize, scoreBoardSize, P2D);
+  barChartWidth = width - topViewSize - scoreBoardSize - 4*border;
   barChart = createGraphics(barChartWidth, barChartHeight, P2D);
+  scrollBar = new HScrollbar(3*border + topViewSize + scoreBoardSize, bottomSquareHeight - 2*border, barChartWidth, border);
   pushMatrix();
   translate(width/2, height/2, 0);
   mx = width/2.0;
@@ -53,17 +56,17 @@ void draw() {
   if(!shifted){
   pushMatrix();
   translate(- width/2, - height/2, 0);
-  drawBottomRect();
-  image(bottomRect, 0, height - bottomSquareHeight);
+  drawBottomSquare();
+  image(bottomRect, 0, 0);
   drawTopView();
-  image(topView, border, height - bottomSquareHeight + border);
+  image(topView, border, border);
   drawScoreBoard();
-  image(scoreBoard, 2*border + topViewSize, height - bottomSquareHeight + border);
+  image(scoreBoard, 2*border + topViewSize, border);
   drawBarChart();
-  image(barChart, 3*border + topViewSize + scoreBoardSize, height - bottomSquareHeight + border);
+  image(barChart, 3*border + topViewSize + scoreBoardSize, border);
   popMatrix();
   pushMatrix();
-  rotateX(angleX);
+  rotateX(angleX - PI/2);
   rotateZ(angleZ);
   box(boxX, boxY, boxZ);
   
